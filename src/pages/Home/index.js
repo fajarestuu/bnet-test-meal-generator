@@ -72,9 +72,6 @@ export default function Home() {
           )}
           {!isLoading && (
             <>
-              <p style={{ lineHeight: 1.5 }}>
-                {selected.strCategoryDescription}
-              </p>
               <RecipeList recipeList={recipeList} />
             </>
           )}
