@@ -36,10 +36,12 @@ export default function Home() {
   useEffect(() => {
     axios.get(API_PATH + "categories.php").then((res) => {
       setCat(res.data.categories);
-      const filtered = res.data.categories.filter(
-        (x, i) => x.strCategory === searchCat
-      );
-      setSelected(filtered[0]);
+      if (searchCat !== null) {
+        const filtered = res.data.categories.filter(
+          (x, i) => x.strCategory === searchCat
+        );
+        setSelected(filtered[0]);
+      }
     });
   }, []);
 
@@ -82,6 +84,7 @@ export default function Home() {
 }
 
 function Cats({ cat, selected, setSelected }) {
+  console.log(selected.strCategory, "sel");
   return (
     <>
       {cat.map((items, index) => {
@@ -91,9 +94,7 @@ function Cats({ cat, selected, setSelected }) {
               setSelected(items);
             }}
             key={index}
-            state={
-              items.strCategory === selected["strCategory"] ? "active" : ""
-            }
+            state={items.strCategory === selected.strCategory ? "active" : ""}
           >
             {items.strCategory}
           </Badge>
