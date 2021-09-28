@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Badge from "../../components/Badge";
 import MainBanner from "../../components/MainBanner";
@@ -13,10 +13,12 @@ const StyledWrapper = styled.div`
 
 const StyledOl = styled.ol`
   list-style: decimal;
+  list-style-position: inside;
 `;
 
 const StyledLi = styled.li`
   margin-bottom: 0.5rem;
+  line-height: 1.5;
 `;
 
 const RecipeH2 = styled.h2`
@@ -56,6 +58,9 @@ export default function ViewRecipe() {
     console.log(id);
     axios.get(API_PATH + "lookup.php?i=" + id).then((res) => {
       setRecipe(res.data.meals[0]);
+      res.data.meals[0].strInstructions.split("\r\n").map((item, index) => {
+        console.log(item === "", index);
+      });
     });
   }, []);
   return (
@@ -63,7 +68,9 @@ export default function ViewRecipe() {
       <MainBanner height={"20rem"} recipe={recipe}></MainBanner>
 
       <StyledWrapper>
-        <Badge>{recipe.strCategory}</Badge>
+        <Link to={`/?cat=${recipe.strCategory}`}>
+          <Badge>{recipe.strCategory}</Badge>
+        </Link>
         <Badge>{recipe.strArea}</Badge>
       </StyledWrapper>
       <StyledWrapper>
@@ -103,7 +110,7 @@ export default function ViewRecipe() {
             <StyledOl>
               {recipe.strInstructions &&
                 recipe.strInstructions.split("\r\n").map((item, index) => {
-                  if (item !== null) {
+                  if (item !== "" && item.length > 5) {
                     return <StyledLi>{item}</StyledLi>;
                   }
                 })}

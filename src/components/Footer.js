@@ -3,9 +3,6 @@ import styled from "styled-components";
 import { COLOR } from "../constant";
 
 const StyledFooter = styled.footer`
-  position: fixed;
-  left: 0;
-  bottom: 0;
   width: 100%;
   background-color: ${COLOR.secondary};
   color: white;
